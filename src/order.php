@@ -1,4 +1,4 @@
-<? include  'book.php'?> 
+
 <?
 
 $tour_id = $_GET['id'];
@@ -20,26 +20,26 @@ $order=[
     "ticket_quantity"=>$order_ticket_quantity,
     "tour_id"=> $order_tour_id
 ];
-
-
-// $file=fopen("./data/order.json","w");
-//     fwrite($file,json_encode($order,JSON_PRETTY_PRINT));
-//     fclose($file);
-
-//     $tours = [];  // Assuming tours data is loaded elsewhere (replace with actual data loading)
-    $found_tour_name = findTourById($tours, $tour_id);  // Call the function to retrieve name
+    $file = fopen("./data/order.json", "w");
+    fwrite($file, json_encode($order, JSON_PRETTY_PRINT));
+    fclose($file);
     
-    // $file = fopen("./data/order.json", "w");
-    // fwrite($file, json_encode($order, JSON_PRETTY_PRINT));
-    // fclose($file);
+    $tours_file = fopen("./data/tours.json", "r");
+    $tours_data = fread($tours_file, filesize("./data/tours.json"));
+    fclose($tours_file);
+    $tours = json_decode($tours_data, true);
     
-    // Success message and tour name display (after saving order data)
+  
+    $matching_tour = null;
+    foreach ($tours as $tour) {
+      if ($tour['id'] == $order_tour_id) {
+        $matching_tour = $tour;
+        break;
+      }
+    }
+    
     ?>
     
-    <hr>
     <h2>Success!</h2>
-    <p>You have booked <?= $order_ticket_quantity ?> tickets for the tour "<?= $found_tour_name ?>"</p>
-    <hr>
+    <p><?= $matching_tour['name']?> <?= $matching_tour['price']['amount']?> * <?=$order_ticket_quantity?></p>
     
-
-?>
