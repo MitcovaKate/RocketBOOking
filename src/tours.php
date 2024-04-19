@@ -130,7 +130,7 @@ hw2 use radio buttons -->
                 <div>
                   <?= $tours[$i]['price']['amount'] ?>
                   <?= $tours[$i]['price']['currency'] ?>
-                  <a href="/?page=book&id=<?$tours[$i]['id']?>">BOOK</a>
+                  <a href="/?page=book&id=<?=$tours[$i]['id']?>">BOOK</a>
                   <??>
                 </div>
                 <hr>
